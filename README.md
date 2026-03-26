@@ -95,6 +95,17 @@ docker-compose.yml파일의
 #      - FRONT_URL=http://192.168.50.200/
       - BACK_URL=http://[Docker가 설치된 PC의 IP]:8080/
 #      - BACK_URL=http://192.168.50.200:8080/
+
+...
+poticard-front:
+    ...
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+      args:
+        - BACK_URL=[Docker가 설치된 PC의 IP]:8080
+#        - BACK_URL=192.168.50.200:8080
+
 ```
 
 부분을 자신이 도커를 설치한 PC의 IP로 수정
@@ -115,38 +126,6 @@ docker compose up --build
 | **Tools** |  ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white) ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black)                                                                                                |
 
 ---
-
-
-## 5. 직접 실행해보기 (Docker)
-
-### 🛠️ 1. Docker 설치
-실행 환경에 맞는 **Docker Desktop** 또는 **Docker Engine**이 설치되어 있어야 합니다.
-
-### 🔑 2. 환경 변수(.env) 설정
-git에 포함되어 있는 example.env 파일에는 수정하지 않아도 괜찮은 값들이 포함되어있음
-docker-compose.yml파일의 
-
-```aiignore
-  poticard-back:
-    image: tahcy/poticardback:0.2
-    ports:
-      - 8080:8080
-    environment:
-      - FRONT_URL=http://[Docker가 설치된 PC의 IP]/
-#      - FRONT_URL=http://192.168.50.200/
-      - BACK_URL=http://[Docker가 설치된 PC의 IP]:8080/
-#      - BACK_URL=http://192.168.50.200:8080/
-```
-
-부분을 자신이 도커를 설치한 PC의 IP로 수정
-
-### 3. Docker 실행 명령어
-
-```aiignore
-
-docker compose up --build
-
-```
 
 
 <p align="center">Copyright © 2026 DevOops Team. All rights reserved.</p>
