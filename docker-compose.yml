@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  poticard-db:
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=qwer1234
+      - MARIADB_DATABASE=poticard
+  poticard-back:
+    image: tahcy/poticardback:0.2
+    ports:
+      - 8080:8080
+    environment:
+      - FRONT_URL=http://[Docker가 설치된 PC의 IP]/
+#      - FRONT_URL=http://192.168.50.200/
+      - BACK_URL=http://[Docker가 설치된 PC의 IP]:8080/
+#      - BACK_URL=http://192.168.50.200:8080/
+    env_file:
+      - ./example.env
+    depends_on:
+      - poticard-db
+#      poticard-db:
+#        condition: service_healthy
+    build:
+      context: ./
+      dockerfile: Dockerfile
+  poticard-front:
+    image: tahcy/poticardfront:0.2
+    ports:
+      - 80:80
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+      args:
+        - VITE_BACKEND_URL=http://localhost:8080/
+    depends_on:
+      - poticard-back
+#      poticard-back:
+#        condition: service_healthy
