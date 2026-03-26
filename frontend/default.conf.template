@@ -1,11 +1,11 @@
 ## 여기서부터 ##
 upstream spring_backend {
-    server localhost:8080;
+    server $LOCAL_URL:8080;
 }
 
 server {
     listen 80;
-    server_name localhost;
+    server_name $LOCAL_URL;
 
         root /usr/share/www/html;
     index index.html;
@@ -16,7 +16,7 @@ server {
 
     location /api/ {
         rewrite ^/api(/.*)$ $1 break;
-           proxy_pass http://spring_backend;
+           proxy_pass http://spring_backend/;
            proxy_http_version 1.1;
            proxy_set_header Upgrade $http_upgrade;
            proxy_set_header Connection "upgrade";
